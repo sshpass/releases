@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function usage {
-echo "   Usage: releases [-cvadsirh] [options]"
+echo "   Usage: releases.sh [-cvadsirh] [options]"
 echo "  -c  check current version"
 echo "  -v  version"
 echo "  -a  architecture - i.e i386, amd64"
