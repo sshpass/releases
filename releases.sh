@@ -39,7 +39,7 @@ function check {
    response=$(curl -s -o /dev/null -w "%{http_code}\n" https://cdn.openbsd.org/pub/OpenBSD/$version/)
    if [[ $response == 200 ]];
    then printf "available\n"; exit
-   else printf "unavailablen"; exit
+   else printf "unavailable\n"; exit
    exit;
    fi; fi
 }
