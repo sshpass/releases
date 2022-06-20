@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# releases.sh
+# Written by Marc Carlson
+# Check current release of OpenBSD. Download latest and past releases in ISO or IMG format. Also, download signature and check download integrity.
+
 function usage {
 echo "   Usage: ./releases.sh [-cvadsirh] [options]"
 echo "  -c  check current version"
