@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 function usage {
-echo "   Usage: releases [-vadsirh] [options]"
+echo "   Usage: releases [-cvadsirh] [options]"
+echo "  -c  check current version"
 echo "  -v  version"
 echo "  -a  architecture - i.e i386, amd64"
 echo "  -i  installation image - iso for CD, img for USB"
@@ -12,7 +13,7 @@ echo "  -r  resume download"
 
 function get_args {
    [ $# -eq 0 ] && usage && exit
-   while getopts "dv:sa:i:rh" arg; do
+   while getopts "dv:sa:i:rhc" arg; do
    case $arg in
    d) download=1;;
    s) sig=1;;
@@ -20,9 +21,17 @@ function get_args {
    a) arch="$OPTARG";;
    i) image="$OPTARG" ;;
    r) resume=1;;
+   c) current=1;;
    h) usage && exit ;;
    esac
    done
+}
+
+check_current() {
+if [[ $current == 1 ]]; then
+printf "The current release is: " ; curl -s https://www.openbsd.org/ | grep release | grep OpenBSD | sed 's/ //1' | cut -d \> -f 2 | cut -d \< -f 1
+exit
+fi
 }
 
 function check_flags {
@@ -32,7 +41,7 @@ if [ -z $image ]; then echo use the -i flag and image format. iso or img
    exit; fi
 }
 
-function check {
+function check_version {
    if [[ $version ]] && [ -z $download ]; then
    printf "Checking release $version: "
    sleep 1; 
@@ -67,7 +76,8 @@ function signature {
 }
 
 get_args $@
-check
+check_current
+check_version
 check_flags
 signature
 download
