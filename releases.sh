@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 function usage {
-echo "   Usage: releases [-vadscirh] [options]"
-echo "  -c  check releases - use with -v"
+echo "   Usage: releases [-vadsirh] [options]"
 echo "  -v  version"
 echo "  -a  architecture - i.e i386, amd64"
 echo "  -i  installation image - iso for CD, img for USB"
