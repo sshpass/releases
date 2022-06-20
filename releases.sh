@@ -38,8 +38,8 @@ function check {
    sleep 1; 
    response=$(curl -s -o /dev/null -w "%{http_code}\n" https://cdn.openbsd.org/pub/OpenBSD/$version/)
    if [[ $response == 200 ]];
-   then printf "released\n"; exit
-   else printf "not yet released\n"; exit
+   then printf "available\n"; exit
+   else printf "unavailablen"; exit
    exit;
    fi; fi
 }
