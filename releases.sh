@@ -13,13 +13,12 @@ echo "  -r  resume download"
 
 function get_args {
    [ $# -eq 0 ] && usage && exit
-   while getopts "dv:sca:li:rh" arg; do
+   while getopts "dv:sa:i:rh" arg; do
    case $arg in
    d) download=1;;
    s) sig=1;;
    v) version="$OPTARG" ;;
    a) arch="$OPTARG";;
-   c) check=1;;
    i) image="$OPTARG" ;;
    r) resume=1;;
    h) usage && exit ;;
@@ -35,7 +34,7 @@ if [ -z $image ]; then echo use the -i flag and image format. iso or img
 }
 
 function check {
-   if [[ $check == 1 ]]; then
+   if [[ $version ]] && [ -z $download ]; then
    printf "Checking release $version: "
    sleep 1; 
    response=$(curl -s -o /dev/null -w "%{http_code}\n" https://cdn.openbsd.org/pub/OpenBSD/$version/)
@@ -46,11 +45,11 @@ function check {
    fi; fi
 }
 
-function download {
-   format=$(printf install$version | sed 's/\.//g'; printf .$image)
+function download {   
+format=$(printf install$version | sed 's/\.//g'; printf .$image)
    if [[ $resume == 1 ]] ;then
    wget -q -c --show-progress https://cdn.openbsd.org/pub/OpenBSD/$version/$arch/$format; fi
-   if [[ $download == 1 ]] ; then
+   if [[ $download ]] && [[ $version ]] ; then
    wget  -q  --show-progress https://cdn.openbsd.org/pub/OpenBSD/$version/$arch/$format; fi
 
   exit
