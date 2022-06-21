@@ -17,7 +17,7 @@ echo "  -r  resume download"
 
 function get_args {
    [ $# -eq 0 ] && usage && exit
-   while getopts "dv:sa:i:rhcm" arg; do
+   while getopts "dv:sa:i:rhc" arg; do
    case $arg in
    d) download=1;;
    s) sig=1;;
