@@ -3,6 +3,7 @@
 # releases.sh
 # Written by Marc Carlson
 # Check current release of OpenBSD. Download latest release in ISO or IMG format. Also, download signature and check download integrity.
+# OpenBSD releases are usually released in May and November.
 
 function usage {
 echo "   Usage: ./releases.sh [-cadsirh] [options]"
@@ -34,7 +35,7 @@ version=$(curl -s https://www.openbsd.org/ | grep release | grep OpenBSD | sed '
 check_current() {
 release=$(curl -s https://www.openbsd.org/ | grep release | grep OpenBSD | sed 's/ //1' | cut -d \> -f 2 | cut -d \< -f 1)
 if [[ $current == 1 ]]; then
-printf "The current release is: " ; echo $release
+printf "The latest release is: " ; echo $release
 exit
 fi
 }
