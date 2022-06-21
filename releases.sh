@@ -5,7 +5,7 @@
 # Check current release of OpenBSD. Download latest release in ISO or IMG format. Also, download signature and check download integrity.
 
 function usage {
-echo "   Usage: ./releases.sh [-cvadsirmh] [options]"
+echo "   Usage: ./releases.sh [-cadsirh] [options]"
 echo "  -c  check current version release"
 echo "  -a  architecture - i.e i386, amd64"
 echo "  -i  installation image - iso for CD, img for USB"
@@ -24,7 +24,6 @@ function get_args {
    i) image="$OPTARG" ;;
    r) resume=1;;
    c) current=1;;
-   m) my_version="1" ;;
    h) usage && exit ;;
    esac
    done
