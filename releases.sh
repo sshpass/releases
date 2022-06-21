@@ -11,9 +11,13 @@ echo "  -c  check current version release"
 echo "  -a  architecture - i.e i386, amd64"
 echo "  -i  installation image - iso for CD, img for USB"
 echo "  -s  signature"
-echo "  -d  download - use with a and -i (or) -s -a and -i"
+echo "  -d  download - use with -a and -i (or) -s -a and -i"
 echo "  -r  resume download"
 }
+
+
+type -P wget 1>/dev/null
+[ "$?" -ne 0 ] && echo "Please install wget before using this script." && exit
 
 function get_args {
    [ $# -eq 0 ] && usage && exit
