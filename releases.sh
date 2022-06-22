@@ -47,19 +47,6 @@ fi
 function check_flags {
    if [ -z "$arch" ]; then echo use the -a flag and architecture
    exit; fi
-if [ -z $image ]; then echo use the -i flag and image format. iso or img
-   exit; fi
-}
-
-function download {   
-format=$(printf install$version | sed 's/\.//g'; printf .$image)
-   if [[ $resume == 1 ]] ;then
-   wget -q -c --show-progress https://cdn.openbsd.org/pub/OpenBSD/$version/$arch/$format; fi
-   if [[ $download ]] && [[ -z $resume ]]; then
-   wget  -q  --show-progress https://cdn.openbsd.org/pub/OpenBSD/$version/$arch/$format; fi
-
-  exit
-
 }
 
 function signature {
@@ -74,8 +61,29 @@ function signature {
    fi
 }
 
+function check_flags2 {
+   if [ -z "$arch" ]; then echo use the -a flag and architecture
+   exit; fi
+if [ -z $image ]; then echo use the -i flag and image format. iso or img
+   exit; fi
+}
+
+
+function download {   
+format=$(printf install$version | sed 's/\.//g'; printf .$image)
+   if [[ $resume == 1 ]] ;then
+   wget -q -c --show-progress https://cdn.openbsd.org/pub/OpenBSD/$version/$arch/$format; fi
+   if [[ $download ]] && [[ -z $resume ]]; then
+   wget  -q  --show-progress https://cdn.openbsd.org/pub/OpenBSD/$version/$arch/$format; fi
+
+  exit
+
+}
+
+
 get_args $@
 check_current
 check_flags
 signature
+check_flags2
 download
