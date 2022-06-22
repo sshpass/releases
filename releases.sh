@@ -11,7 +11,7 @@ echo "  -c  check current version release"
 echo "  -a  architecture - i.e i386, amd64"
 echo "  -i  installation image - iso for CD, img for USB"
 echo "  -s  signature"
-echo "  -d  download - use with -a and -i (or) -s -a and -i"
+echo "  -d  download - use with -a and -i (or) -s and -a"
 echo "  -r  resume download"
 }
 
