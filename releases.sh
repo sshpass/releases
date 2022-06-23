@@ -35,17 +35,23 @@ function get_args {
 }
 
 version=$(curl -s https://www.openbsd.org/ | grep release | grep OpenBSD | sed 's/ //1' | cut -d \> -f 2 | cut -d \< -f 1 | awk '{ print $2}')
-
-check_current() {
 release=$(curl -s https://www.openbsd.org/ | grep release | grep OpenBSD | sed 's/ //1' | cut -d \> -f 2 | cut -d \< -f 1)
-if [[ $current == 1 ]]; then
-printf "The latest release is: " ; echo $release
-exit
+
+function check_current {
+myversion=$(uname -r)
+myos=$(uname -s)
+
+if [[ $current == "1" ]] && [[ $myos == "OpenBSD" ]] && [[ $myversion == $version ]]; then printf "You have the latest version\n"; exit
+   elif [[ $current == "1" ]] && [[ $myos == "OpenBSD" ]] && [[ $myversion < $version ]]; then printf "Version $version is ready for download\n"; exit
+   elif [[ $current ]]; then printf "The latest release is: " ; echo $release
+   exit
 fi
 }
 
 function check_flags {
    if [ -z "$arch" ]; then echo use the -a flag and architecture
+   exit; fi
+   if [ -z $image ]; then echo use the -i flag and image format. iso or img
    exit; fi
 }
 
@@ -61,13 +67,6 @@ function signature {
    fi
 }
 
-function check_flags2 {
-   if [ -z "$arch" ]; then echo use the -a flag and architecture
-   exit; fi
-if [ -z $image ]; then echo use the -i flag and image format. iso or img
-   exit; fi
-}
-
 
 function download {   
 format=$(printf install$version | sed 's/\.//g'; printf .$image)
@@ -75,15 +74,11 @@ format=$(printf install$version | sed 's/\.//g'; printf .$image)
    wget -q -c --show-progress https://cdn.openbsd.org/pub/OpenBSD/$version/$arch/$format; fi
    if [[ $download ]] && [[ -z $resume ]]; then
    wget  -q  --show-progress https://cdn.openbsd.org/pub/OpenBSD/$version/$arch/$format; fi
-
-  exit
-
+exit
 }
-
 
 get_args $@
 check_current
 check_flags
 signature
-check_flags2
 download
